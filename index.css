@@ -1,0 +1,105 @@
+html,body{
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body{
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  height: 100vh;
+}
+
+
+tr{
+  margin: 0px;
+}
+td{
+  margin: 0;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  border: 1px solid lightgrey;
+}
+
+table{
+  border: 1px solid black;
+  border-collapse: collapse;
+  /* border: none; */
+}
+
+input{
+  width: 99%;
+  height: 99%;
+  border: none;
+  margin: 0;
+  font-size: 15px;
+  text-align: center;
+  font-weight: 800;
+
+}
+
+td:nth-child(3n){
+  border-right: 3px solid black;
+}
+
+td:nth-child(1){
+  border-left: 3px solid black;
+}
+
+tr:nth-child(1)>td{
+  border-top: 3px solid black;
+}
+
+tr:nth-child(3n)>td{
+  border-bottom: 3px solid black;
+}
+
+
+td:hover>input{
+  background:lightblue;
+}
+
+button{
+  width: 150px;
+  height: 100px;
+  background: purple;
+  color: white;
+  font-size: 35px;
+  border: none;
+  margin-top: 10px;
+  border-radius: 20%;
+}
+
+button:hover{
+  background-color: blue;
+}
+
+button:active{
+  background: lightblue;
+}
+
+.solved{
+  color: blue;
+  text-decoration: underline;
+  font-size: 20px;
+}
+
+#newButton{
+  background-color: red;
+}
+
+#newButton:hover{
+  background-color: darkorange;
+}
+
+#newButton:active{
+  background-color: orange;
+}
