@@ -115,9 +115,57 @@ function isComplete(mat){
   return true
 }
 
-//mainChecker
-function mainChecker(mat){
+//checks if two arrays are equal or not
+function arraysEqual(a, b) {
+  if (a === b) return true;
+  if (a == null || b == null) return false;
+  if (a.length != b.length) return false;
+
+  for (var i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+}
+
+//returns positions with possible numbers
+function lonelyChecker(array){
+  newArray = array.map(function(el){
+    return el.map(function(el2){
+      counter = 0
+      for(ar of array){
+        if(ar.includes(el2)){
+          counter++
+        }
+      }
+      if(counter==1){
+        console.log(el2);
+        return el2
+      }
+    })
+  })
+
+
+  dic = {}
+  index = 0
+  for (ar1 of newArray){
+    for(ar2 of ar1){
+      if(ar2!=undefined){
+        dic[index] = ar2
+      }
+    }
+    index++
+  }
+  return dic
+}
+
+
+
+//returns matrix that includes all possible numbers for each cell
+function possNumbers(mat){
+  mainPossMat = []
+
   for(row=0;row<9;row++){
+    possMat = []
     for(col=0;col<9;col++){
       if(!mat[row][col]){
         rowMat = mishecker(rowReturner(row,mat))
@@ -125,16 +173,101 @@ function mainChecker(mat){
         squareMat = mishecker(squareReturner(row,col,mat))
         mut1 = (mutualNumbers(rowMat,colMat))
         mut2 = mutualNumbers(mut1,squareMat)
-        if(mut2.length==1){
-          mat[row][col]=mut2[0]
-        }
-        }
+        possMat.push(mut2)
+      }else{
+        possMat.push([])
       }
     }
-    if(isComplete(mat)){
-      return mat
-    }else{
-      return mainChecker(mat)
+      mainPossMat.push(possMat)
+    }
+    return mainPossMat
+  }
+
+//returns copy of a multidimensional array
+function makeCopy(array){
+  newArray = []
+  for(i=0;i<array.length;i++){
+    newArray[i] = array[i].slice()
+  }
+  return newArray
+}
+
+
+//first strategy
+//this strategy gets the matrix and looks for cells with one possible number
+//and returns best possible solved sudoku
+function firstStrategy(mat){
+  possMat = possNumbers(mat)
+  newmat = mat.map(function(rowMat,row){
+    return rowMat.map(function(colMat,col){
+      possAr = possMat[row][col]
+      if(possAr.length==1){
+        return possAr[0]
+      }else{
+        return colMat
+      }
+    })
+  })
+
+  if(isComplete(newmat)){
+    return [true,newmat]
+  }else if(JSON.stringify(mat)==JSON.stringify(newmat)){
+    return [false,newmat]
+  }else{
+    return firstStrategy(newmat)
+  }
+}
+
+
+//second strategy
+function secondStrategy(mat){
+  changed = false
+  possMat = possNumbers(mat)
+
+  for(var index=0;index<9;index++){
+    posRow = lonelyChecker(rowReturner(index,possMat))
+    posCol = lonelyChecker(colReturner(index,possMat))
+
+    for(let key in posRow){
+      let col = parseInt(key)
+      let value = posRow[key]
+
+      changed = true
+      mat[index][col] = value
+    }
+    for(let key in posCol){
+      changed = true
+      let row = parseInt(key)
+      let value = posCol[key]
+      mat[row][index] = value
+    }
+  }
+  if(isComplete(mat)){
+    // console.log(mat);
+    return [true,mat]
+  }if(!changed){
+    return [false,mat]
+  }else{
+    return secondStrategy(mat)
+  }
+}
+
+//mainChecker
+function mainChecker(mat){
+    while(true){
+      copyMat = makeCopy(mat)
+      mat = firstStrategy(mat)[1]
+      mat = secondStrategy(mat)[1]
+      if(JSON.stringify(mat)==JSON.stringify(copyMat)){
+        console.log("these strategies are worthless!!");
+        break
+      }else if(isComplete(mat)){
+        console.log("completed");
+        console.log(mat);
+        return mat
+      }else{
+        return mainChecker(mat)
+      }
     }
   }
 
