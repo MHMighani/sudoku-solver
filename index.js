@@ -138,7 +138,7 @@ function lonelyChecker(array){
         }
       }
       if(counter==1){
-        console.log(el2);
+        // console.log(el2);
         return el2
       }
     })
@@ -252,18 +252,53 @@ function secondStrategy(mat){
   }
 }
 
+//third strategy
+//bruteforce strategy!!
+function thirdStrategy(mat){
+  // console.log("recursion");
+  if(isComplete(mat)){
+    // console.log(mat);
+    return mat
+  }
+  possMat = possNumbers(mat)
+  for(var row=0;row<9;row++){
+    for(var col=0;col<9;col++){
+
+      if(!mat[row][col]){
+        cellPossMat=possMat[row][col];
+        if(cellPossMat.length==0){
+          return false
+        }else{
+          for(el of cellPossMat){
+            mat[row][col] = el
+            if(thirdStrategy(mat)){
+              return thirdStrategy(mat)
+            }
+        }
+        mat[row][col] = 0
+        return false
+      }
+    }
+  }
+}
+}
+
+
+
 //mainChecker
 function mainChecker(mat){
     while(true){
       copyMat = makeCopy(mat)
       mat = firstStrategy(mat)[1]
       mat = secondStrategy(mat)[1]
+      mat = thirdStrategy(mat)
       if(JSON.stringify(mat)==JSON.stringify(copyMat)){
-        console.log("these strategies are worthless!!");
+        // thirdStrategy(mat)
+        // console.log("these strategies are worthless!!");
         break
       }else if(isComplete(mat)){
-        console.log("completed");
-        console.log(mat);
+        // console.log("completed");
+        // console.log(mat);
         return mat
       }else{
         return mainChecker(mat)
@@ -271,6 +306,7 @@ function mainChecker(mat){
     }
   }
 
+//------------------------------------------------------------------------------
 
 function showSolvedArray(solvedArray){
   var array2 = document.getElementsByTagName("td")
