@@ -1,6 +1,20 @@
-html,body{
+:root{
+  --cell-border-color: lightgrey;
+  --input-focus-background-color:lightblue;
+  --hint-number-background-color:grey;
+  --hint-number-text-color:aliceblue;
+  --input-hover-background-color: floralwhite;
+  --solve-btn-background-color: #1265a8;
+  --solve-btn-hover-background-color: #3cbce1;
+  --new-game-btn-background-color: green;
+  --new-game-btn-hover-background-color:darkorange;
+}
+
+
+*{
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 html{
@@ -13,93 +27,103 @@ body{
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  width: 70%;
   height: 100vh;
 }
 
-
-tr{
-  margin: 0px;
-}
-td{
-  margin: 0;
-  text-align: center;
-  width: 50px;
-  height: 50px;
-  border: 1px solid lightgrey;
+#game{
+  display: flex;
+  flex-flow:column wrap;
+  justify-content: center;
+  align-items: center;
 }
 
+/* Table */
 table{
-  border: 1px solid black;
   border-collapse: collapse;
-  /* border: none; */
+  border-spacing:0;
+  
 }
 
+td{
+  border: 1px solid var(--cell-border-color);
+  font-size: 1rem;
+}
+
+.border-top{
+  border-top: 1px solid black;
+}
+
+.border-left{
+  border-left: 1px solid black;
+}
+
+.border-right{
+  border-right: 1px solid black;
+}
+
+.border-bottom{
+  border-bottom: 1px solid black;
+}
+
+/* input */
 input{
-  width: 99%;
-  height: 99%;
-  border: none;
-  margin: 0;
-  font-size: 15px;
+  width: 75px;
+  height: 75px;
+  border:none;
+  padding: 0 !important;
   text-align: center;
-  font-weight: 800;
-
+  font-size: 1.3rem;
 }
 
-td:nth-child(3n){
-  border-right: 3px solid black;
+td>input:focus{
+  outline: none;
+  background:var(--input-focus-background-color) !important;
 }
 
-td:nth-child(1){
-  border-left: 3px solid black;
+input.finished{
+  cursor:default;
+  pointer-events: none;
 }
 
-tr:nth-child(1)>td{
-  border-top: 3px solid black;
+input.finished.hint{
+  background-color: var(--hint-number-background-color);
+  color:var(--hint-number-text-color)
 }
-
-tr:nth-child(3n)>td{
-  border-bottom: 3px solid black;
-}
-
 
 td:hover>input{
-  background:lightblue;
+  background-color: var(--input-hover-background-color);
 }
 
-button{
-  width: 150px;
-  height: 100px;
-  background: purple;
+/* Buttons */
+.buttons{
+  display: flex;
+}
+
+.button{
+  width: 70px;
+  height: 70px;
+  border:none;
+  border-radius: 10px;
   color: white;
-  font-size: 35px;
-  border: none;
-  margin-top: 10px;
-  border-radius: 20%;
+  cursor: pointer;
+  transition: all .3s;
+  margin: 10px 5px;
+  font-size: 1rem;
+  font-weight: bold;
 }
 
-button:hover{
-  background-color: blue;
+#solveButton{
+  background-color: var(--solve-btn-background-color);
 }
 
-button:active{
-  background: lightblue;
-}
-
-.solved{
-  color: blue;
-  text-decoration: underline;
-  font-size: 20px;
+#solveButton:hover{
+  background-color: var(--solve-btn-hover-background-color);
 }
 
 #newButton{
-  background-color: red;
+  background-color: var(--new-game-btn-background-color);
 }
 
 #newButton:hover{
-  background-color: darkorange;
-}
-
-#newButton:active{
-  background-color: orange;
+  background-color: var(--new-game-btn-hover-background-color);
 }
